@@ -1,14 +1,13 @@
 # project/tests/utils.py
 
-
 import datetime
-
 
 from project import db
 from project.api.models import User
 
 
 def add_user(username, email, password, created_at=datetime.datetime.utcnow()):
+    """Helper function for tests"""
     user = User(
         username=username,
         email=email,
