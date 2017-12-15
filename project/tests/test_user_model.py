@@ -13,12 +13,14 @@ class TestUserModel(BaseTestCase):
 
     def test_add_user(self):
         user = add_user('justatest', 'test@test.com', 'test')
+
         self.assertTrue(user.id)
         self.assertEqual(user.username, 'justatest')
         self.assertEqual(user.email, 'test@test.com')
         self.assertTrue(user.password)
         self.assertTrue(user.active)
         self.assertTrue(user.created_at)
+        self.assertTrue(user.admin == False)
 
     def test_add_user_duplicate_username(self):
         add_user('justatest', 'test@test.com', 'test')
