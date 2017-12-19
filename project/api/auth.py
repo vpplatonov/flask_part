@@ -83,7 +83,8 @@ def login_user():
                 response_object = {
                     'status': 'success',
                     'message': 'Successfully logged in.',
-                    'auth_token': auth_token.decode()
+                    'auth_token': auth_token.decode(),
+                    'is_admin': user.admin
                 }
                 return jsonify(response_object), 200
         else:

@@ -37,6 +37,12 @@ def seed_db():
         email='valeri.platonov@smtp.com',
         password='123'
     ))
+    db.session.add(User(
+        username='admin',
+        email='admin@smtp.com',
+        password='admin',
+        admin=True
+    ))
     db.session.commit()
 
 

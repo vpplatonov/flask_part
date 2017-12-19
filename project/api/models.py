@@ -19,11 +19,12 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
 
     def __init__(
-            self, username, email, password,
+            self, username, email, password, admin=False,
             created_at=datetime.datetime.utcnow()):
         self.username = username
         self.email = email
         self.password = bcrypt.generate_password_hash(password).decode()
+        self.admin = admin
         self.created_at = created_at
 
     def encode_auth_token(self, user_id):
