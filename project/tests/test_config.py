@@ -27,6 +27,14 @@ class TestDevelopmentConfig(TestCase):
             app.config['SQLALCHEMY_DATABASE_URI'] ==
             os.environ.get('DATABASE_URL')
         )
+        self.assertTrue(
+            app.config['CRM_API'] ==
+            os.environ.get('CRM_API_ROOT')
+        )
+        self.assertTrue(
+            app.config['CRM_API_SECRET'] ==
+            os.environ.get('CRM_API_SECRET')
+        )
         self.assertTrue(app.config['BCRYPT_LOG_ROUNDS'] == 4)
         self.assertTrue(app.config['TOKEN_EXPIRATION_DAYS'] == 30)
         self.assertTrue(app.config['TOKEN_EXPIRATION_SECONDS'] == 0)

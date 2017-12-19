@@ -14,6 +14,10 @@ class BaseConfig:
     TOKEN_EXPIRATION_DAYS = 30
     TOKEN_EXPIRATION_SECONDS = 0
 
+    """ Request API configuration"""
+    CRM_API = os.environ.get('CRM_API_ROOT')
+    CRM_API_SECRET = os.environ.get('CRM_API_SECRET')
+
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration"""

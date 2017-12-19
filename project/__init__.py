@@ -36,7 +36,9 @@ def create_app():
     # register blueprints
     from project.api.users import users_blueprint
     from project.api.auth import auth_blueprint
+    from project.jsonapi.senders import senders_blueprint
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(users_blueprint)
+    app.register_blueprint(senders_blueprint)
 
     return app
