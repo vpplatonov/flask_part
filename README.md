@@ -12,6 +12,10 @@ sudo -i -u postgres
 [postgres=#] \q
 [postgres@ncp-test:~$] exit
 
+python3 manage.py recreate_db
+python3 manage.py seed_db
+
+
 apt search virtualenv
 
 sudo apt install virtualenv

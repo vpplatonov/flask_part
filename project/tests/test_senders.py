@@ -15,7 +15,7 @@ class TestSendersService(BaseTestCase):
     def test_all_senders(self):
         """Ensure get all senders behaves correctly."""
         with self.client:
-            response = self.client.get('/senders')
+            response = self.client.get('/settings/senders')
             if response.status == 'error':
                 self.assertEqual(response.status, "error")
                 return
@@ -24,4 +24,4 @@ class TestSendersService(BaseTestCase):
             self.assertTrue('status' in data['data']['senders'][0])
             self.assertTrue('login' in data['data']['senders'][0])
             self.assertTrue('label' in data['data']['senders'][0])
-            self.assertIn('2162196', data['data']['senders'][0]['label'])
+            self.assertIn('s170503t03', data['data']['senders'][0]['label'])

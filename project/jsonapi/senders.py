@@ -12,7 +12,7 @@ import requests
 senders_blueprint = Blueprint('senders', __name__)
 
 
-@senders_blueprint.route('/senders', methods=['GET'])
+@senders_blueprint.route('/settings/senders', methods=['GET'])
 #@authenticate
 def get_all_senders():
     """Get all senders"""
@@ -21,7 +21,7 @@ def get_all_senders():
         'Accept': 'application/json',
         'X-API-KEY': 'secret'
     }
-    url = os.environ.get('CRM_API_ROOT') + '/accounts/2153050/senders.json'
+    url = os.environ.get('CRM_API_ROOT') + '/accounts/2153055/senders.json'
     try:
         response = requests.get(
             url,
