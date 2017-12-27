@@ -215,7 +215,7 @@ class TestAuthBlueprint(BaseTestCase):
                 )),
                 content_type='application/json'
             )
-            response = self.client.get(
+            response = self.client.post(
                 '/auth/status',
                 headers=dict(
                     Authorization='Bearer ' + json.loads(
@@ -234,7 +234,7 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_invalid_status(self):
         with self.client:
-            response = self.client.get(
+            response = self.client.post(
                 '/auth/status',
                 headers=dict(Authorization='Bearer invalid'))
             data = json.loads(response.data.decode())
@@ -287,7 +287,7 @@ class TestAuthBlueprint(BaseTestCase):
                 )),
                 content_type='application/json'
             )
-            response = self.client.get(
+            response = self.client.post(
                 '/auth/status',
                 headers=dict(
                     Authorization='Bearer ' + json.loads(
@@ -335,3 +335,28 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(
                 data['message'] == 'Something went wrong. Please contact us.')
             self.assertEqual(response.status_code, 401)
+
+    def test_auth_user_check(self):
+        add_user('test', 'test@test.com', 'test')
+        with self.client:
+            resp_login = self.client.post(
+                '/auth/login',
+                data=json.dumps(dict(
+                    email='test@test.com',
+                    password='test'
+                )),
+                content_type='application/json'
+            )
+            response = self.client.post(
+                '/auth/check',
+                content_type='application/json',
+                headers=dict(
+                    Authorization='Bearer ' + json.loads(
+                        resp_login.data.decode()
+                    )['auth_token']
+                )
+            )
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'success')
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data['data']['admin'], False)

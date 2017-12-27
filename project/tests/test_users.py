@@ -39,7 +39,7 @@ class TestUserService(BaseTestCase):
                 content_type='application/json'
             )
             response = self.client.post(
-                '/users',
+                '/user',
                 data=json.dumps(dict(
                     username='michael',
                     email='michael@realpython.com',
@@ -74,7 +74,7 @@ class TestUserService(BaseTestCase):
                 content_type='application/json'
             )
             response = self.client.post(
-                '/users',
+                '/user',
                 data=json.dumps(dict()),
                 content_type='application/json',
                 headers=dict(
@@ -105,7 +105,7 @@ class TestUserService(BaseTestCase):
                 content_type='application/json'
             )
             response = self.client.post(
-                '/users',
+                '/user',
                 data=json.dumps(dict(email='michael@realpython.com', password='test')),
                 content_type='application/json',
                 headers=dict(
@@ -136,7 +136,7 @@ class TestUserService(BaseTestCase):
                 content_type='application/json'
             )
             self.client.post(
-                '/users',
+                '/user',
                 data=json.dumps(dict(
                     username='michael',
                     email='michael@realpython.com',
@@ -150,7 +150,7 @@ class TestUserService(BaseTestCase):
                 ),
             )
             response = self.client.post(
-                '/users',
+                '/user',
                 data=json.dumps(dict(
                     username='michael',
                     email='michael@realpython.com',
@@ -203,9 +203,29 @@ class TestUserService(BaseTestCase):
         """Ensure get all users behaves correctly."""
         created = datetime.datetime.utcnow() + datetime.timedelta(-30)
         add_user('michael', 'michael@realpython.com', 'test', created)
+        # update user
+        user = User.query.filter_by(email='michael@realpython.com').first()
+        user.admin = True
+        db.session.commit()
         add_user('fletcher', 'fletcher@realpython.com', 'test')
         with self.client:
-            response = self.client.get('/users')
+            resp_login = self.client.post(
+                '/auth/login',
+                data=json.dumps(dict(
+                    email='michael@realpython.com',
+                    password='test'
+                )),
+                content_type='application/json'
+            )
+            response = self.client.post(
+                '/users',
+                content_type='application/json',
+                headers=dict(
+                    Authorization='Bearer ' + json.loads(
+                        resp_login.data.decode()
+                    )['auth_token']
+                ),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(data['data']['users']), 2)
@@ -236,7 +256,7 @@ class TestUserService(BaseTestCase):
                 content_type='application/json'
             )
             response = self.client.post(
-                '/users',
+                '/user',
                 data=json.dumps(dict(
                     username='michael',
                     email='michael@realpython.com')),
@@ -265,7 +285,7 @@ class TestUserService(BaseTestCase):
                 content_type='application/json'
             )
             response = self.client.post(
-                '/users',
+                '/user',
                 data=json.dumps(dict(
                     username='michael',
                     email='michael@realpython.com',

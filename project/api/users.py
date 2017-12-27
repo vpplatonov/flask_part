@@ -20,7 +20,7 @@ def ping_pong():
     })
 
 
-@users_blueprint.route('/users', methods=['POST'])
+@users_blueprint.route('/user', methods=['POST'])
 @authenticate
 def add_user(resp):
     if not is_admin(resp):
@@ -92,8 +92,9 @@ def get_single_user(user_id):
         return jsonify(response_object), 404
 
 
-@users_blueprint.route('/users', methods=['GET'])
-def get_all_users():
+@users_blueprint.route('/users', methods=['POST'])
+@authenticate
+def get_all_users(resp):
     """Get all users"""
     users = User.query.order_by(User.created_at.desc()).all()
     users_list = []

@@ -102,6 +102,19 @@ def login_user():
         return jsonify(response_object), 500
 
 
+@auth_blueprint.route('/auth/check', methods=['POST'])
+@authenticate
+def login_user_check(resp):
+    user = User.query.filter_by(id=resp).first()
+    response_object = {
+        'status': 'success',
+        'data': {
+            'admin': user.admin
+        }
+    }
+    return jsonify(response_object), 200
+
+
 @auth_blueprint.route('/auth/logout', methods=['GET'])
 @authenticate
 def logout_user(resp):
@@ -112,7 +125,7 @@ def logout_user(resp):
     return jsonify(response_object), 200
 
 
-@auth_blueprint.route('/auth/status', methods=['GET'])
+@auth_blueprint.route('/auth/status', methods=['POST'])
 @authenticate
 def get_user_status(resp):
     user = User.query.filter_by(id=resp).first()
